@@ -18,9 +18,11 @@ const Registration = () => {
                 const user = result.user;
                 console.log(user);
                 alert("user created successfully")
+                event.target.reset();
             })
             .catch(error => {
                 console.log(error.message);
+                event.target.reset();
             })
 
 

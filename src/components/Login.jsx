@@ -1,12 +1,13 @@
 
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 
 
 const Login = () => {
-    const { signInUser } = useContext(AuthContext);
+    const { signInUser, googleLogin } = useContext(AuthContext);
+    const navigate = useNavigate()
     const handleLogin = (event) => {
         event.preventDefault();
         const email = event.target.email.value;
@@ -15,8 +16,25 @@ const Login = () => {
         signInUser(email, password)
             .then(result => {
                 console.log(result.user);
+                event.target.reset();
+                navigate('/')
+
             })
 
+            .catch(error => {
+                console.log(error.message)
+                event.target.reset();
+            })
+
+    }
+
+
+    const handleGoggleLogin = () => {
+        console.log("coming mama")
+        googleLogin()
+            .then(result => {
+                console.log(result.user)
+            })
             .catch(error => {
                 console.log(error.message)
             })
@@ -52,7 +70,11 @@ const Login = () => {
                         <div>
                             <h2>New Here Please <Link to='/registration'><button className="btn btn-active btn-link">Register</button></Link></h2>
                         </div>
+
                     </form>
+                    <div className="mb-4 px-4">
+                        <button onClick={handleGoggleLogin} className="btn btn-primary w-full">Goggle Login</button>
+                    </div>
                 </div>
             </div>
         </div>
